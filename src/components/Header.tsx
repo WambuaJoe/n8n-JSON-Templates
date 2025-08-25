@@ -14,9 +14,9 @@ export const Header: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-transparent to-secondary-500/5"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16 relative z-10">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="#" className="flex items-center space-x-2">
             <Code className="h-6 w-6 sm:h-8 sm:w-8 text-primary-500" />
-            <span className="text-lg sm:text-xl font-bold font-display text-white drop-shadow-lg">n8n Templates</span>
+            <span className="text-lg sm:text-xl font-bold font-display text-white drop-shadow-lg">n8n Projects</span>
           </Link>
           
           <nav className="flex space-x-4 sm:space-x-8">

@@ -14,14 +14,14 @@ export const Home: React.FC = () => {
           </h1>
           <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-7 sm:leading-8 font-body text-white/90 max-w-2xl mx-auto px-4 drop-shadow-lg">
             A curated collection of production-ready n8n workflows and automations. 
-            Each template comes with detailed explanations and ready-to-import JSON files.
+            Each project comes with detailed explanations and ready-to-import JSON files.
           </p>
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 px-4">
             <Link
               to="/projects"
               className="group w-full sm:w-auto rounded-xl bg-gradient-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold font-display text-white shadow-2xl hover:shadow-primary-500/25 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2 text-center backdrop-blur-sm border border-white/20"
             >
-              Browse Templates
+              Browse Projects
               <ArrowRight className="ml-2 h-5 w-5 inline group-hover:translate-x-1 transition-transform" />
             </Link>
             <a

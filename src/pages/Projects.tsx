@@ -8,9 +8,9 @@ export const Projects: React.FC = () => {
     <div className="min-h-screen relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
       <div className="text-center mb-8 sm:mb-12">
-        <h1 className="text-3xl sm:text-4xl font-bold font-display text-white mb-3 sm:mb-4 drop-shadow-2xl">n8n Templates</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold font-display text-white mb-3 sm:mb-4 drop-shadow-2xl">n8n Projects</h1>
         <p className="text-lg sm:text-xl font-body text-white/90 max-w-2xl mx-auto px-4 drop-shadow-lg">
-          Discover workflow automation templates for various use cases. Each template is ready to import and customize.
+          Discover workflow automation projects for various use cases. Each project is ready to import and customize.
         </p>
       </div>
 
