@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Copy, Check, ArrowLeft, Tag, Clock } from 'lucide-react';
+import { Download, Copy, Check, ArrowLeft, Tag, Clock, Github, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { projectsData } from '../data/projects';
+import { projectsData, getGithubJsonUrl } from '../data/projects';
 
 export const ProjectDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showWorkflow, setShowWorkflow] = useState(false);
+  const [workflowJson, setWorkflowJson] = useState<string>('');
+  const [loadingWorkflow, setLoadingWorkflow] = useState(false);
 
   const project = projectsData.find(p => p.slug === slug);
 
@@ -14,28 +18,80 @@ export const ProjectDetail: React.FC = () => {
     return <Navigate to="/projects" replace />;
   }
 
+  const githubJsonUrl = getGithubJsonUrl(project.jsonFileName);
+
   const handleCopy = async () => {
+    setLoading(true);
     try {
-      await navigator.clipboard.writeText(JSON.stringify(project.jsonData, null, 2));
+      const response = await fetch(githubJsonUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch JSON from GitHub');
+      }
+      const jsonData = await response.text();
+      await navigator.clipboard.writeText(jsonData);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy JSON:', err);
+      // Fallback: open GitHub URL
+      window.open(githubJsonUrl, '_blank');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDownload = () => {
-    const dataStr = JSON.stringify(project.jsonData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${project.slug}-workflow.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const handleDownload = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(githubJsonUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch JSON from GitHub');
+      }
+      const jsonData = await response.text();
+      
+      const dataBlob = new Blob([jsonData], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${project.slug}-workflow.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to download JSON:', err);
+      // Fallback: open GitHub URL
+      window.open(githubJsonUrl, '_blank');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleViewOnGithub = () => {
+    window.open(githubJsonUrl, '_blank');
+  };
+
+  const handleShowWorkflow = async () => {
+    if (showWorkflow) {
+      setShowWorkflow(false);
+      return;
+    }
+
+    setLoadingWorkflow(true);
+    try {
+      const response = await fetch(githubJsonUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch JSON from GitHub');
+      }
+      const jsonData = await response.text();
+      const formattedJson = JSON.stringify(JSON.parse(jsonData), null, 2);
+      setWorkflowJson(formattedJson);
+      setShowWorkflow(true);
+    } catch (err) {
+      console.error('Failed to fetch workflow JSON:', err);
+    } finally {
+      setLoadingWorkflow(false);
+    }
   };
 
   return (
@@ -79,14 +135,16 @@ export const ProjectDetail: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 relative z-10">
           <button
             onClick={handleDownload}
+            disabled={loading}
             className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-white/20 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-gradient-primary shadow-2xl hover:shadow-primary-500/25 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
           >
-            <Download className="mr-2 h-5 w-5" />
-            Download JSON
+            <Download className={`mr-2 h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
+            {loading ? 'Loading...' : 'Download JSON'}
           </button>
           
           <button
             onClick={handleCopy}
+            disabled={loading}
             className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border-2 border-white/30 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-white/10 hover:border-primary-400 hover:bg-white/20 hover:text-primary-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
           >
             {copied ? (
@@ -94,12 +152,34 @@ export const ProjectDetail: React.FC = () => {
                 <Check className="mr-2 h-5 w-5 text-green-500" />
                 Copied!
               </>
+            ) : loading ? (
+              <>
+                <Copy className="mr-2 h-5 w-5 animate-spin" />
+                Loading...
+              </>
             ) : (
               <>
                 <Copy className="mr-2 h-5 w-5" />
                 Copy JSON
               </>
             )}
+          </button>
+          
+          <button
+            onClick={handleViewOnGithub}
+            className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border-2 border-white/30 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-white/10 hover:border-secondary-400 hover:bg-white/20 hover:text-secondary-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
+          >
+            <Github className="mr-2 h-5 w-5" />
+            View on GitHub
+          </button>
+          
+          <button
+            onClick={handleShowWorkflow}
+            disabled={loadingWorkflow}
+            className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border-2 border-white/30 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-white/10 hover:border-accent-400 hover:bg-white/20 hover:text-accent-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
+          >
+            <Code className="mr-2 h-5 w-5" />
+            {loadingWorkflow ? 'Loading...' : showWorkflow ? 'Hide Workflow' : 'Show Workflow'}
           </button>
         </div>
       </div>
@@ -113,23 +193,21 @@ export const ProjectDetail: React.FC = () => {
         </div>
       </div>
 
-      {/* JSON Display */}
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 overflow-hidden relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary-500/5 via-transparent to-accent-500/5"></div>
-        <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-b border-white/20 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 relative z-10">
-          <h2 className="text-xl sm:text-2xl font-bold font-display text-white drop-shadow-xl">Workflow JSON</h2>
-          <p className="text-sm sm:text-base font-body text-white/90 mt-2 drop-shadow-md">
-            Copy this JSON and import it directly into your n8n instance.
-          </p>
-        </div>
-        <div className="p-4 sm:p-6 lg:p-8 relative z-10">
-          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-3 sm:p-4 lg:p-6 overflow-auto max-h-96 sm:max-h-none border border-white/10">
-            <pre className="text-xs sm:text-sm font-mono text-green-300 whitespace-pre-wrap break-words drop-shadow-sm">
-              <code>{JSON.stringify(project.jsonData, null, 2)}</code>
+      {/* Workflow JSON Display */}
+      {showWorkflow && workflowJson && (
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-secondary-500/5 via-transparent to-accent-500/5"></div>
+          <h2 className="text-xl sm:text-2xl font-bold font-display text-white mb-4 sm:mb-6 drop-shadow-xl relative z-10">Workflow JSON</h2>
+          <div className="relative z-10">
+            <pre className="bg-black/30 backdrop-blur-sm rounded-lg p-4 overflow-x-auto text-xs sm:text-sm text-green-300 font-mono border border-white/10 max-h-96 overflow-y-auto">
+              <code>{workflowJson}</code>
             </pre>
+            <p className="text-xs sm:text-sm text-white/70 mt-2 font-body">
+              Copy this JSON and import it directly into your n8n instance.
+            </p>
           </div>
         </div>
-      </div>
+      )}
       </div>
     </div>
   );
