@@ -31,7 +31,7 @@ export const Home: React.FC = () => {
               className="group w-full sm:w-auto rounded-xl border-2 border-white/30 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold font-display text-white hover:border-primary-400 hover:bg-white/10 hover:text-primary-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 text-center backdrop-blur-sm"
             >
               <Globe className="mr-2 h-5 w-5 inline" />
-              My Portfolio
+              About Me
             </a>
           </div>
         </div>

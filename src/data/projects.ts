@@ -10,7 +10,7 @@ export interface Project {
 
 // Configuration for site settings
 export const siteConfig = {
-  portfolioUrl: 'https://n8n-projects-portfolio.netlify.app/', // Edit this URL to point to your portfolio
+  portfolioUrl: 'https://flowcv.me/joseph-katuawambua', // Edit this URL to point to your portfolio
   githubUsername: 'WambuaJoe', // Replace with your GitHub username
   githubRepo: 'n8n-JSON-Templates', // Replace with your GitHub repository name
   githubRawBaseUrl: 'https://raw.githubusercontent.com/WambuaJoe/n8n-Portfolio-Projects/refs/heads/main/design/assets/workflows/',
