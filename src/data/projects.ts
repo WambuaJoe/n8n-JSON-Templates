@@ -26,8 +26,8 @@ export const projectsData: Project[] = [
   {
     slug: 'rag-chatbot',
     title: 'RAG Chatbot Workflow',
-    description: 'AI-powered chatbot with retrieval-augmented generation capabilities.',
-    explanation: 'This workflow creates an intelligent chatbot that uses retrieval-augmented generation (RAG) to provide accurate, context-aware responses. It combines document retrieval with AI generation to answer questions based on your knowledge base.',
+    description: 'Chat with your documents and get instant, smart answers in Telegram.',
+    explanation: "This chatbot uses Retrieval-Augmented Generation (RAG) to answer user questions with accurate, context-specific responses. Instead of relying only on AI's memory, it retrieves relevant documents from a vector database, then feeds them into an AI model for response generation. Users interact through Telegram, making it accessible and easy to use. It’s ideal for internal knowledge bases, customer support, or educational resources. The bot can handle large datasets, update its knowledge base automatically, and ensure answers remain accurate over time.",
     tags: ['AI', 'Chatbot', 'RAG'],
     complexity: 'Advanced',
     jsonFileName: 'rag-chatbot.json'
@@ -35,8 +35,8 @@ export const projectsData: Project[] = [
   {
     slug: 'gmail-ai',
     title: 'Gmail AI Assistant',
-    description: 'AI-powered Gmail automation for intelligent email processing and responses.',
-    explanation: 'This workflow integrates AI capabilities with Gmail to automatically process incoming emails, categorize them, and generate intelligent responses. It can handle customer inquiries, filter spam, prioritize important emails, and even draft replies based on email content and context.',
+    description: 'From inbox to Slack, minus the noise.',
+    explanation: 'This project combines two connected workflows to streamline how incoming enquiries and emails are handled. The first workflow captures form submissions, classifies them with AI, and directs them into the right path - either scheduling follow-ups or gracefully declining irrelevant entries. The second workflow then listens to Gmail for incoming enquiries, automatically labels and summarizes the content, and prepares a draft response. Instead of sending replies directly, the draft is pushed to Slack, where a human teammate can quickly review, edit if needed, and approve before the message goes out. Together, these workflows reduce manual sorting, ensure every enquiry gets acknowledged, and give teams a faster way to collaborate on responses without sacrificing quality or human oversight.',
     tags: ['Gmail', 'AI', 'Email', 'Automation'],
     complexity: 'Advanced',
     jsonFileName: 'gmail-ai.json'
