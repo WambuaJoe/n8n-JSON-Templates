@@ -19,7 +19,7 @@ export const projectsData: Project[] = [
     slug: 'rag-telegram-automation',
     title: 'Telegram Chatbot',
     description: 'Provide instant responses and personalized content answers through a Telegram chatbot.',
-    explanation: 'This chatbot uses Retrieval-Augmented Generation (RAG) to answer user questions with accurate, context-specific responses. Instead of relying only on AI's memory, it retrieves relevant documents from a vector database, then feeds them into an AI model for response generation. Users interact through Telegram, making it accessible and easy to use. It’s ideal for internal knowledge bases, customer support, or educational resources. The bot can handle large datasets, update its knowledge base automatically, and ensure answers remain accurate over time.',
+    explanation: "This chatbot uses Retrieval-Augmented Generation (RAG) to answer user questions with accurate, context-specific responses. Instead of relying only on AI's memory, it retrieves relevant documents from a vector database, then feeds them into an AI model for response generation. Users interact through Telegram, making it accessible and easy to use. It’s ideal for internal knowledge bases, customer support, or educational resources. The bot can handle large datasets, update its knowledge base automatically, and ensure answers remain accurate over time.",
     tags: ['Email', 'Automation', 'Marketing'],
     complexity: 'Intermediate',
     jsonData: {
