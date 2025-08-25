@@ -170,7 +170,7 @@ export const ProjectDetail: React.FC = () => {
             className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border-2 border-white/30 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-white/10 hover:border-secondary-400 hover:bg-white/20 hover:text-secondary-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
           >
             <Github className="mr-2 h-5 w-5" />
-            View on GitHub
+            View JSON
           </button>
           
           <button
