@@ -10,11 +10,11 @@ export const Home: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 relative z-10">
         <div className="text-center">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-display tracking-tight text-white mb-4 drop-shadow-2xl">
-            n8n Workflow Templates
+            n8n Workflows
           </h1>
           <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-7 sm:leading-8 font-body text-white/90 max-w-2xl mx-auto px-4 drop-shadow-lg">
-            A curated collection of production-ready n8n workflows and automations. 
-            Each project comes with detailed explanations and ready-to-import JSON files.
+            A curated collection of production-ready n8n workflow and automation projects. 
+            Each comes with detailed explanations and ready-to-import JSON files.
           </p>
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 px-4">
             <Link
