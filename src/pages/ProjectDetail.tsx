@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Copy, Check, ArrowLeft, Tag, Clock, Github, Code } from 'lucide-react';
+import { Download, Copy, Check, ArrowLeft, Tag, Clock, Github, Image, Video } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projectsData, getGithubJsonUrl } from '../data/projects';
+import { ImageModal } from '../components/ImageModal';
 
 export const ProjectDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showWorkflow, setShowWorkflow] = useState(false);
-  const [workflowJson, setWorkflowJson] = useState<string>('');
-  const [loadingWorkflow, setLoadingWorkflow] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const project = projectsData.find(p => p.slug === slug);
 
@@ -69,29 +68,6 @@ export const ProjectDetail: React.FC = () => {
 
   const handleViewOnGithub = () => {
     window.open(githubJsonUrl, '_blank');
-  };
-
-  const handleShowWorkflow = async () => {
-    if (showWorkflow) {
-      setShowWorkflow(false);
-      return;
-    }
-
-    setLoadingWorkflow(true);
-    try {
-      const response = await fetch(githubJsonUrl);
-      if (!response.ok) {
-        throw new Error('Failed to fetch JSON from GitHub');
-      }
-      const jsonData = await response.text();
-      const formattedJson = JSON.stringify(JSON.parse(jsonData), null, 2);
-      setWorkflowJson(formattedJson);
-      setShowWorkflow(true);
-    } catch (err) {
-      console.error('Failed to fetch workflow JSON:', err);
-    } finally {
-      setLoadingWorkflow(false);
-    }
   };
 
   return (
@@ -170,19 +146,58 @@ export const ProjectDetail: React.FC = () => {
             className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border-2 border-white/30 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-white/10 hover:border-secondary-400 hover:bg-white/20 hover:text-secondary-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
           >
             <Github className="mr-2 h-5 w-5" />
-            View JSON
-          </button>
-          
-          <button
-            onClick={handleShowWorkflow}
-            disabled={loadingWorkflow}
-            className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border-2 border-white/30 text-sm sm:text-base font-semibold font-display rounded-xl text-white bg-white/10 hover:border-accent-400 hover:bg-white/20 hover:text-accent-300 transition-all duration-300 hover:scale-105 hover:-translate-y-2 touch-manipulation backdrop-blur-sm"
-          >
-            <Code className="mr-2 h-5 w-5" />
-            {loadingWorkflow ? 'Loading...' : showWorkflow ? 'Hide Workflow' : 'Show Workflow'}
+            View on GitHub
           </button>
         </div>
       </div>
+
+      {/* Media Section */}
+      {(project.screenshot || project.video) && (
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-secondary-500/5 via-transparent to-accent-500/5"></div>
+          <h2 className="text-xl sm:text-2xl font-bold font-display text-white mb-4 sm:mb-6 drop-shadow-xl relative z-10">Project Media</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 relative z-10">
+            {/* Screenshot */}
+            {project.screenshot && (
+              <div className="space-y-4">
+                <div className="flex items-center text-white/90 font-medium font-body drop-shadow-md">
+                  <Image className="h-5 w-5 mr-2 text-primary-400" />
+                  Screenshot
+                </div>
+                <div className="rounded-xl overflow-hidden shadow-2xl border border-white/20 bg-black/20 backdrop-blur-sm">
+                  <img
+                    src={project.screenshot}
+                    alt={`${project.title} screenshot`}
+                    className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500 cursor-pointer"
+                    onClick={() => setIsImageModalOpen(true)}
+                  />
+                </div>
+              </div>
+            )}
+            
+            {/* Video */}
+            {project.video && (
+              <div className="space-y-4">
+                <div className="flex items-center text-white/90 font-medium font-body drop-shadow-md">
+                  <Video className="h-5 w-5 mr-2 text-secondary-400" />
+                  Demo Video
+                </div>
+                <div className="rounded-xl overflow-hidden shadow-2xl border border-white/20 bg-black/20 backdrop-blur-sm">
+                  <video
+                    controls
+                    className="w-full h-auto"
+                    poster={project.screenshot}
+                  >
+                    <source src={project.video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Explanation */}
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 relative overflow-hidden">
@@ -193,22 +208,17 @@ export const ProjectDetail: React.FC = () => {
         </div>
       </div>
 
-      {/* Workflow JSON Display */}
-      {showWorkflow && workflowJson && (
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-secondary-500/5 via-transparent to-accent-500/5"></div>
-          <h2 className="text-xl sm:text-2xl font-bold font-display text-white mb-4 sm:mb-6 drop-shadow-xl relative z-10">Workflow JSON</h2>
-          <div className="relative z-10">
-            <pre className="bg-black/30 backdrop-blur-sm rounded-lg p-4 overflow-x-auto text-xs sm:text-sm text-green-300 font-mono border border-white/10 max-h-96 overflow-y-auto">
-              <code>{workflowJson}</code>
-            </pre>
-            <p className="text-xs sm:text-sm text-white/70 mt-2 font-body">
-              Copy this JSON and import it directly into your n8n instance.
-            </p>
-          </div>
-        </div>
-      )}
       </div>
+
+      {/* Image Modal */}
+      {project.screenshot && (
+        <ImageModal
+          isOpen={isImageModalOpen}
+          onClose={() => setIsImageModalOpen(false)}
+          src={project.screenshot}
+          alt={`${project.title} screenshot`}
+        />
+      )}
     </div>
   );
 };
