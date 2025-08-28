@@ -44,7 +44,7 @@ export const projectsData: Project[] = [
     tags: ['Gmail', 'AI', 'Email', 'Automation'],
     complexity: 'Advanced',
     jsonFileName: 'gmail-ai.json',
-    screenshot: 'https://github.com/WambuaJoe/Project-Media/blob/main/n8n-template/Gmail%20AI.png',
+    screenshot: '../../dist/assets/screenshots/gmail-AI.png',
     video: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4'
   }
   // New workflow template
