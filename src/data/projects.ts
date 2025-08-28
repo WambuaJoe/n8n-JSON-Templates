@@ -44,7 +44,7 @@ export const projectsData: Project[] = [
     tags: ['Gmail', 'AI', 'Email', 'Automation'],
     complexity: 'Advanced',
     jsonFileName: 'gmail-ai.json',
-    screenshot: 'dist/assets/screenshots/Screenshot 2025-08-17 161044.png',
+    screenshot: '/home/tensazangetsu/.ssh/netlify_projects/json-n8n/dist/assets/screenshots/Screenshot 2025-08-17 161044.png',
     video: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4'
   }
   // New workflow template
