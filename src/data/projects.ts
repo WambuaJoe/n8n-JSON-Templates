@@ -1,6 +1,6 @@
 // Image imports
-import telegramChatbot from 'src/data/screenshots/telegram-chatbot.png';
-import gmailAI from 'src/data/screenshots/gmail-AI.png';
+import telegramChatbot from './screenshots/telegram-chatbot.png';
+import gmailAI from './screenshots/gmail-AI.png';
 
 export interface Project {
   slug: string;
