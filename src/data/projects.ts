@@ -1,5 +1,5 @@
 // Image imports
-import telegramChatbot from 'src/data/screenshots/Telegram Chatbot.png';
+import telegramChatbot from 'src/data/screenshots/telegram-chatbot.png';
 import gmailAI from 'src/data/screenshots/gmail-AI.png';
 
 export interface Project {
