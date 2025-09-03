@@ -1,3 +1,7 @@
+// Image imports
+import telegramChatbot from 'src/data/screenshots/Telegram Chatbot.png';
+import gmailAI from 'src/data/screenshots/gmail-AI.png';
+
 export interface Project {
   slug: string;
   title: string;
@@ -32,7 +36,7 @@ export const projectsData: Project[] = [
     tags: ['AI', 'Chatbot', 'RAG'],
     complexity: 'Advanced',
     jsonFileName: 'rag-chatbot.json',
-    screenshot: 'src/data/screenshots/Telegram Chatbot.png'
+    screenshot: telegramChatbot
   },
   {
     slug: 'gmail-ai',
@@ -42,7 +46,7 @@ export const projectsData: Project[] = [
     tags: ['Gmail', 'AI', 'Email', 'Automation'],
     complexity: 'Advanced',
     jsonFileName: 'gmail-ai.json',
-    screenshot: '/src/data/screenshots/gmail-AI.png'
+    screenshot: gmailAI
   }
 ];
 
