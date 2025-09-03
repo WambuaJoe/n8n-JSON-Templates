@@ -7,12 +7,11 @@ export interface Project {
   complexity: 'Beginner' | 'Intermediate' | 'Advanced';
   jsonFileName: string; // Just the filename, e.g., 'rag-chatbot.json'
   screenshot?: string; // URL to screenshot image
-  video?: string; // URL to demo video
 }
 
 // Configuration for site settings
 export const siteConfig = {
-  portfolioUrl: 'https://n8n-projects-portfolio.netlify.app/', // Edit this URL to point to your portfolio
+  portfolioUrl: 'https://flowcv.me/joseph-katuawambua', // Edit this URL to point to your portfolio
   githubUsername: 'WambuaJoe', // Replace with your GitHub username
   githubRepo: 'n8n-JSON-Templates', // Replace with your GitHub repository name
   githubRawBaseUrl: 'https://raw.githubusercontent.com/WambuaJoe/n8n-Portfolio-Projects/refs/heads/main/design/assets/workflows/',
@@ -33,8 +32,7 @@ export const projectsData: Project[] = [
     tags: ['AI', 'Chatbot', 'RAG'],
     complexity: 'Advanced',
     jsonFileName: 'rag-chatbot.json',
-    screenshot: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    video: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4'
+    screenshot: 'src/data/screenshots/Telegram Chatbot.png'
   },
   {
     slug: 'gmail-ai',
@@ -44,21 +42,8 @@ export const projectsData: Project[] = [
     tags: ['Gmail', 'AI', 'Email', 'Automation'],
     complexity: 'Advanced',
     jsonFileName: 'gmail-ai.json',
-    screenshot: '../../dist/assets/screenshots/gmail-AI.png',
-    video: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4'
+    screenshot: '/src/data/screenshots/gmail-AI.png'
   }
-  // New workflow template
-//   {
-//     slug: 'my-new-workflow',
-//     title: 'My New Workflow', 
-//     description: 'Brief description...',
-//     explanation: 'Detailed explanation...',
-//     tags: ['Tag1', 'Tag2'],
-//     complexity: 'Intermediate',
-//     jsonFileName: 'my-new-workflow.json', // Just add the filename!
-//     screenshot: 'https://your-screenshot-url.jpg', // Optional
-//     video: 'https://your-video-url.mp4' // Optional
-// }
 ];
 
 // Helper function to add new projects
